@@ -1,0 +1,96 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\BrGaapFiscal\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{887DBBC8-9D6F-4127-8859-0D088B5F40D1}|BrGaapFiscal.Api\\BrGaapFiscal.Api.csproj|c:\\brgaapfiscal\\brgaapfiscal.api\\controllers\\fornecedorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{887DBBC8-9D6F-4127-8859-0D088B5F40D1}|BrGaapFiscal.Api\\BrGaapFiscal.Api.csproj|solutionrelative:brgaapfiscal.api\\controllers\\fornecedorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{887DBBC8-9D6F-4127-8859-0D088B5F40D1}|BrGaapFiscal.Api\\BrGaapFiscal.Api.csproj|c:\\brgaapfiscal\\brgaapfiscal.api\\services\\clienteservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{887DBBC8-9D6F-4127-8859-0D088B5F40D1}|BrGaapFiscal.Api\\BrGaapFiscal.Api.csproj|solutionrelative:brgaapfiscal.api\\services\\clienteservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{887DBBC8-9D6F-4127-8859-0D088B5F40D1}|BrGaapFiscal.Api\\BrGaapFiscal.Api.csproj|c:\\brgaapfiscal\\brgaapfiscal.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{887DBBC8-9D6F-4127-8859-0D088B5F40D1}|BrGaapFiscal.Api\\BrGaapFiscal.Api.csproj|solutionrelative:brgaapfiscal.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{887DBBC8-9D6F-4127-8859-0D088B5F40D1}|BrGaapFiscal.Api\\BrGaapFiscal.Api.csproj|c:\\brgaapfiscal\\brgaapfiscal.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{887DBBC8-9D6F-4127-8859-0D088B5F40D1}|BrGaapFiscal.Api\\BrGaapFiscal.Api.csproj|solutionrelative:brgaapfiscal.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "FornecedorController.cs",
+              "DocumentMoniker": "C:\\BrGaapFiscal\\BrGaapFiscal.Api\\Controllers\\FornecedorController.cs",
+              "RelativeDocumentMoniker": "BrGaapFiscal.Api\\Controllers\\FornecedorController.cs",
+              "ToolTip": "C:\\BrGaapFiscal\\BrGaapFiscal.Api\\Controllers\\FornecedorController.cs",
+              "RelativeToolTip": "BrGaapFiscal.Api\\Controllers\\FornecedorController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEkAAAA2AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-22T18:25:26.463Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ClienteService.cs",
+              "DocumentMoniker": "C:\\BrGaapFiscal\\BrGaapFiscal.Api\\Services\\ClienteService.cs",
+              "RelativeDocumentMoniker": "BrGaapFiscal.Api\\Services\\ClienteService.cs",
+              "ToolTip": "C:\\BrGaapFiscal\\BrGaapFiscal.Api\\Services\\ClienteService.cs",
+              "RelativeToolTip": "BrGaapFiscal.Api\\Services\\ClienteService.cs",
+              "ViewState": "AQIAAEgAAAAAAAAAAAAowFQAAAAuAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-22T18:24:57.411Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\BrGaapFiscal\\BrGaapFiscal.Api\\Program.cs",
+              "RelativeDocumentMoniker": "BrGaapFiscal.Api\\Program.cs",
+              "ToolTip": "C:\\BrGaapFiscal\\BrGaapFiscal.Api\\Program.cs",
+              "RelativeToolTip": "BrGaapFiscal.Api\\Program.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAACgAAAAWAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-22T18:13:12.03Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\BrGaapFiscal\\BrGaapFiscal.Api\\appsettings.json",
+              "RelativeDocumentMoniker": "BrGaapFiscal.Api\\appsettings.json",
+              "ToolTip": "C:\\BrGaapFiscal\\BrGaapFiscal.Api\\appsettings.json",
+              "RelativeToolTip": "BrGaapFiscal.Api\\appsettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAABhAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-02-22T18:01:42.837Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
