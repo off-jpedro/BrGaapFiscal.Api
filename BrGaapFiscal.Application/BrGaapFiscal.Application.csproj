@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BrGaapFiscal.Data\BrGaapFiscal.Data.csproj" />
+    <ProjectReference Include="..\BrGaapFiscal.Domain\BrGaapFiscal.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
