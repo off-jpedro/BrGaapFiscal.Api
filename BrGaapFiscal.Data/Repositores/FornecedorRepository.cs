@@ -30,17 +30,11 @@ namespace BrGaapFiscal.Api.Repositores
 
         public async Task<bool> Update(Fornecedor entity)
         {
-            var existingFornecedor = await _context.Fornecedores.FindAsync(entity.Id);
-            if (existingFornecedor != null)
-            {
-                _context.Entry(existingFornecedor).CurrentValues.SetValues(entity);
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            else
-            {
-                throw new KeyNotFoundException("Fornecedor não encontrado(a).");
-            }
+            var fornecedor = await _context.Fornecedores.FindAsync(entity.Id);
+
+            _context.Entry(fornecedor).CurrentValues.SetValues(entity);
+            var rowsAffected = await _context.SaveChangesAsync();
+            return rowsAffected > 0;
         }
 
         public async Task<IEnumerable<Fornecedor>> GetAll()

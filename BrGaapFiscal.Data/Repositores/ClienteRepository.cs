@@ -30,17 +30,11 @@ namespace BrGaapFiscal.Api.Repositores
 
         public async Task<bool> Update(Cliente entity)
         {
-            var existingCliente = await _context.Clientes.FindAsync(entity.Id);
-            if (existingCliente != null)
-            {
-                _context.Entry(existingCliente).CurrentValues.SetValues(entity);
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            else
-            {
-                throw new KeyNotFoundException("Cliente não encontrado(a).");
-            }
+            var cliente = await _context.Clientes.FindAsync(entity.Id);
+
+            _context.Entry(cliente).CurrentValues.SetValues(entity);
+            var rowsAffected = await _context.SaveChangesAsync();
+            return rowsAffected > 0;
         }
 
         public async Task<IEnumerable<Cliente>> GetAll()

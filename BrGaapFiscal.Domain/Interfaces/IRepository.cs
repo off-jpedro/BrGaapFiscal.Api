@@ -1,4 +1,4 @@
-﻿namespace BrGaapFiscal.Domain.Core.Interfaces
+﻿namespace BrGaapFiscal.Domain.Interfaces
 {
     public interface IRepository<T>
         where T : class, IEntity

@@ -1,4 +1,4 @@
-﻿using BrGaapFiscal.Domain.Core.Interfaces;
+﻿using BrGaapFiscal.Domain.Interfaces;
 using BrGaapFiscal.Domain.Models;
 
 namespace BrGaapFiscal.Api.Repositores.Interfaces

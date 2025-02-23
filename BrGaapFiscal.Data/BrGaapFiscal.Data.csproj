@@ -20,7 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BrGaapFiscal.Domain.Core\BrGaapFiscal.Domain.Core.csproj" />
     <ProjectReference Include="..\BrGaapFiscal.Domain\BrGaapFiscal.Domain.csproj" />
   </ItemGroup>
 	

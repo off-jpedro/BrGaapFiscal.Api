@@ -1,6 +1,7 @@
 ﻿using BrGaapFiscal.Api.Repositores.Interfaces;
 using BrGaapFiscal.Api.Services.Interfaces;
 using BrGaapFiscal.Domain.Models;
+using System.Transactions;
 
 namespace BrGaapFiscal.Api.Services
 {
@@ -15,7 +16,25 @@ namespace BrGaapFiscal.Api.Services
 
         public async Task<bool> Insert(Fornecedor entity)
         {
-            return await _repository.Add(entity);
+            using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                try
+                {
+                    var fornecedorExistente = await _repository.GetById(entity.Id);
+                    if (fornecedorExistente != null)
+                    {
+                        throw new ArgumentException("Fornecedor já existe.");
+                    }
+
+                    var result = await _repository.Add(entity);
+                    transaction.Complete();
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    throw new KeyNotFoundException($"Erro ao inserir o fornecedor. {ex.Message}");
+                }
+            }
         }
 
         public async Task<bool> Delete(Fornecedor entity)
@@ -31,7 +50,19 @@ namespace BrGaapFiscal.Api.Services
 
         public async Task<IEnumerable<Fornecedor>> GetAll()
         {
-            return await _repository.GetAll();
+            try
+            {
+                var fornecedores = await _repository.GetAll();
+                if (fornecedores == null || !fornecedores.Any())
+                {
+                    throw new KeyNotFoundException("Nenhum fornecedor encontrado.");
+                }
+                return fornecedores;
+            }
+            catch (Exception ex)
+            {
+                throw new KeyNotFoundException($"Erro ao buscar fornecedores. {ex.Message}");
+            }
         }
 
         public async Task<Fornecedor> GetById(long id)
@@ -47,15 +78,27 @@ namespace BrGaapFiscal.Api.Services
 
         public async Task<bool> Update(Fornecedor entity)
         {
-            var existeFornecedor = await _repository.GetById(entity.Id);
-            if (existeFornecedor == null)
+            using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                throw new KeyNotFoundException("Fornecedor não encontrado(a).");
+                try
+                {
+                    var existeFornecedor = await _repository.GetById(entity.Id);
+                    if (existeFornecedor == null)
+                    {
+                        throw new KeyNotFoundException("Fornecedor não encontrado(a).");
+                    }
+
+                    existeFornecedor.Nome = entity.Nome;
+
+                    var result = await _repository.Update(existeFornecedor);
+                    transaction.Complete();
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    throw new KeyNotFoundException($"Erro ao atualizar o fornecedor. {ex.Message}");
+                }
             }
-
-            existeFornecedor.Nome = entity.Nome;
-
-            return await _repository.Update(existeFornecedor);
         }
     }
 }

@@ -657,11 +657,6 @@
         "runtime": {
           "BrGaapFiscal.Domain.dll": {}
         }
-      },
-      "BrGaapFiscal.Domain.Core/1.0.0": {
-        "runtime": {
-          "BrGaapFiscal.Domain.Core.dll": {}
-        }
       }
     }
   },
@@ -973,11 +968,6 @@
       "hashPath": "system.threading.channels.7.0.0.nupkg.sha512"
     },
     "BrGaapFiscal.Domain/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "BrGaapFiscal.Domain.Core/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

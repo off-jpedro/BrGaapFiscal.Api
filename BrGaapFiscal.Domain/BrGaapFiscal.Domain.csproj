@@ -6,8 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\BrGaapFiscal.Domain.Core\BrGaapFiscal.Domain.Core.csproj" />
-  </ItemGroup>
-
 </Project>

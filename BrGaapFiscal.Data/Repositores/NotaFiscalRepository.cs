@@ -30,17 +30,11 @@ namespace BrGaapFiscal.Api.Repositores
 
         public async Task<bool> Update(NotaFiscal entity)
         {
-            var existingNotaFiscal = await _context.NotaFiscais.FindAsync(entity.Id);
-            if (existingNotaFiscal != null)
-            {
-                _context.Entry(existingNotaFiscal).CurrentValues.SetValues(entity);
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            else
-            {
-                throw new KeyNotFoundException("Nota fiscal não encontrada.");
-            }
+            var notaFiscal = await _context.NotaFiscais.FindAsync(entity.Id);
+
+            _context.Entry(notaFiscal).CurrentValues.SetValues(entity);
+            var rowsAffected = await _context.SaveChangesAsync();
+            return rowsAffected > 0;
         }
 
         public async Task<IEnumerable<NotaFiscal>> GetAll()
