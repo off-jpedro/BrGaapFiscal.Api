@@ -1,6 +1,5 @@
-﻿using BrGaapFiscal.Api.Models;
-using BrGaapFiscal.Api.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
+﻿using BrGaapFiscal.Api.Services.Interfaces;
+using BrGaapFiscal.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BrGaapFiscal.Api.Controllers
@@ -28,7 +27,7 @@ namespace BrGaapFiscal.Api.Controllers
 
             try
             {
-                await _fornecedorService.AddFornecedor(fornecedor);
+                await _fornecedorService.Insert(fornecedor);
                 return CreatedAtAction(nameof(GetFornecedorById), new { id = fornecedor.Id }, fornecedor);
             }
             catch (Exception ex)
@@ -42,7 +41,7 @@ namespace BrGaapFiscal.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAllFornecedor()
         {
-            var fornecedores = await _fornecedorService.GetAllFornecedor();
+            var fornecedores = await _fornecedorService.GetAll();
             if (fornecedores == null || !fornecedores.Any())
             {
                 return NotFound("Nenhum fornecedor encontrado.");
@@ -53,9 +52,9 @@ namespace BrGaapFiscal.Api.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetFornecedorById(int id)
+        public async Task<IActionResult> GetFornecedorById(long id)
         {
-            var fornecedor = await _fornecedorService.GetFornecedorById(id);
+            var fornecedor = await _fornecedorService.GetById(id);
             if (fornecedor == null)
             {
                 return NotFound("Fornecedor não encontrado.");
@@ -67,7 +66,7 @@ namespace BrGaapFiscal.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateFornecedor(int id, [FromBody] Fornecedor fornecedor)
+        public async Task<IActionResult> UpdateFornecedor(long id, [FromBody] Fornecedor fornecedor)
         {
             if (fornecedor == null || fornecedor.Id != id)
             {
@@ -76,7 +75,7 @@ namespace BrGaapFiscal.Api.Controllers
 
             try
             {
-                await _fornecedorService.UpdateFornecedor(fornecedor);
+                await _fornecedorService.Update(fornecedor);
                 return Ok(fornecedor);
             }
             catch (KeyNotFoundException)
@@ -92,11 +91,17 @@ namespace BrGaapFiscal.Api.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteFornecedor(int id)
+        public async Task<IActionResult> DeleteFornecedor(long id)
         {
             try
             {
-                await _fornecedorService.DeleteFornecedorById(id);
+                var fornecedor = await _fornecedorService.GetById(id);
+                if (fornecedor == null)
+                {
+                    return NotFound("Fornecedor não encontrado.");
+                }
+
+                await _fornecedorService.Delete(fornecedor);
                 return NoContent();
             }
             catch (KeyNotFoundException)

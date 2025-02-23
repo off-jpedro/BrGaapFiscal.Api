@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "ZmizuI9+HhRce8tmsYdRQz7u7+CX3jSQnjq8zmLY/dcHl0gxuLfDMZ5vcDfvY/WoXTDj50ZfB2yCT9jUV+tZww==",
+  "dgSpecHash": "GTcFtTxg6MHEuqdfgbXZNQS3s0NfndMocD+TYnBSESW4vsO5K0WuPF1KhUm8CZHV96AXVRhPdDVmR/Oqmgtz0A==",
   "success": true,
   "projectFilePath": "C:\\BrGaapFiscal\\BrGaapFiscal.Api\\BrGaapFiscal.Api.csproj",
   "expectedPackageFiles": [
@@ -20,6 +20,7 @@
     "C:\\Users\\João Pedro\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\9.0.2\\microsoft.entityframeworkcore.analyzers.9.0.2.nupkg.sha512",
     "C:\\Users\\João Pedro\\.nuget\\packages\\microsoft.entityframeworkcore.design\\9.0.2\\microsoft.entityframeworkcore.design.9.0.2.nupkg.sha512",
     "C:\\Users\\João Pedro\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\9.0.2\\microsoft.entityframeworkcore.relational.9.0.2.nupkg.sha512",
+    "C:\\Users\\João Pedro\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\9.0.2\\microsoft.entityframeworkcore.tools.9.0.2.nupkg.sha512",
     "C:\\Users\\João Pedro\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
     "C:\\Users\\João Pedro\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\9.0.2\\microsoft.extensions.caching.abstractions.9.0.2.nupkg.sha512",
     "C:\\Users\\João Pedro\\.nuget\\packages\\microsoft.extensions.caching.memory\\9.0.2\\microsoft.extensions.caching.memory.9.0.2.nupkg.sha512",

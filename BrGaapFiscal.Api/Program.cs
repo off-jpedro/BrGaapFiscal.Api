@@ -1,9 +1,10 @@
-using BrGaapFiscal.Api.Data;
 using BrGaapFiscal.Api.Repositores.Interfaces;
 using BrGaapFiscal.Api.Repositores;
 using BrGaapFiscal.Api.Services.Interfaces;
 using BrGaapFiscal.Api.Services;
 using Microsoft.EntityFrameworkCore;
+using BrGaapFiscal.Infra.Data.Factory;
+using BrGaapFiscal.Infra.Data.Repositores.Interfaces;
 
 
 var builder = WebApplication.CreateBuilder(args);

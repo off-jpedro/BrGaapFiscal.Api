@@ -1,6 +1,5 @@
-﻿using BrGaapFiscal.Api.Models;
-using BrGaapFiscal.Api.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
+﻿using BrGaapFiscal.Api.Services.Interfaces;
+using BrGaapFiscal.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BrGaapFiscal.Api.Controllers
@@ -28,7 +27,7 @@ namespace BrGaapFiscal.Api.Controllers
 
             try
             {
-                await _clienteService.AddCliente(cliente);
+                await _clienteService.Insert(cliente);
                 return CreatedAtAction(nameof(GetClienteById), new { id = cliente.Id }, cliente);
             }
             catch (Exception ex)
@@ -42,7 +41,7 @@ namespace BrGaapFiscal.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAllCliente()
         {
-            var clientes = await _clienteService.GetAllCliente();
+            var clientes = await _clienteService.GetAll();
             if (clientes == null || !clientes.Any())
             {
                 return NotFound("Nenhum cliente encontrado.");
@@ -53,9 +52,9 @@ namespace BrGaapFiscal.Api.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetClienteById(int id)
+        public async Task<IActionResult> GetClienteById(long id)
         {
-            var cliente = await _clienteService.GetClienteById(id);
+            var cliente = await _clienteService.GetById(id);
             if (cliente == null)
             {
                 return NotFound("Cliente não encontrado.");
@@ -67,7 +66,7 @@ namespace BrGaapFiscal.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateCliente(int id, [FromBody] Cliente cliente)
+        public async Task<IActionResult> UpdateCliente(long id, [FromBody] Cliente cliente)
         {
             if (cliente == null || cliente.Id != id)
             {
@@ -76,7 +75,7 @@ namespace BrGaapFiscal.Api.Controllers
 
             try
             {
-                await _clienteService.UpdateCliente(cliente);
+                await _clienteService.Update(cliente);
                 return Ok(cliente);
             }
             catch (KeyNotFoundException)
@@ -92,11 +91,17 @@ namespace BrGaapFiscal.Api.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteCliente(int id)
+        public async Task<IActionResult> DeleteCliente(long id)
         {
             try
             {
-                await _clienteService.DeleteClienteById(id);
+                var cliente = await _clienteService.GetById(id);
+                if (cliente == null)
+                {
+                    return NotFound("Cliente não encontrado.");
+                }
+
+                await _clienteService.Delete(cliente);
                 return NoContent();
             }
             catch (KeyNotFoundException)

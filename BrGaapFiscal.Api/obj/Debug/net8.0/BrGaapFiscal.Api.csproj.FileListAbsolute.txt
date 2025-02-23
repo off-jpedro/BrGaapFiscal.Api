@@ -133,3 +133,12 @@ C:\BrGaapFiscal\BrGaapFiscal.Api\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.Work
 C:\BrGaapFiscal\BrGaapFiscal.Api\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 C:\BrGaapFiscal\BrGaapFiscal.Api\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 C:\BrGaapFiscal\BrGaapFiscal.Api\bin\Debug\net8.0\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
+C:\BrGaapFiscal\BrGaapFiscal.Api\obj\Debug\net8.0\BrGaapFiscal.Api.sourcelink.json
+C:\BrGaapFiscal\BrGaapFiscal.Api\bin\Debug\net8.0\BrGaapFiscal.Application.dll
+C:\BrGaapFiscal\BrGaapFiscal.Api\bin\Debug\net8.0\BrGaapFiscal.Data.dll
+C:\BrGaapFiscal\BrGaapFiscal.Api\bin\Debug\net8.0\BrGaapFiscal.Domain.Core.dll
+C:\BrGaapFiscal\BrGaapFiscal.Api\bin\Debug\net8.0\BrGaapFiscal.Domain.dll
+C:\BrGaapFiscal\BrGaapFiscal.Api\bin\Debug\net8.0\BrGaapFiscal.Application.pdb
+C:\BrGaapFiscal\BrGaapFiscal.Api\bin\Debug\net8.0\BrGaapFiscal.Data.pdb
+C:\BrGaapFiscal\BrGaapFiscal.Api\bin\Debug\net8.0\BrGaapFiscal.Domain.pdb
+C:\BrGaapFiscal\BrGaapFiscal.Api\bin\Debug\net8.0\BrGaapFiscal.Domain.Core.pdb

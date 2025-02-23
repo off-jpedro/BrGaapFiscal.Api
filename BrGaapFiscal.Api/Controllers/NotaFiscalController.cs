@@ -1,6 +1,5 @@
-﻿using BrGaapFiscal.Api.Models;
-using BrGaapFiscal.Api.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
+﻿using BrGaapFiscal.Api.Services.Interfaces;
+using BrGaapFiscal.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BrGaapFiscal.Api.Controllers
@@ -28,7 +27,7 @@ namespace BrGaapFiscal.Api.Controllers
 
             try
             {
-                await _notaFiscalService.AddNotaFiscal(notaFiscal);
+                await _notaFiscalService.Insert(notaFiscal);
                 return CreatedAtAction(nameof(GetNotaFiscalById), new { id = notaFiscal.Id }, notaFiscal);
             }
             catch (Exception ex)
@@ -42,7 +41,7 @@ namespace BrGaapFiscal.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAllNotaFiscal()
         {
-            var notaFiscais = await _notaFiscalService.GetAllNotaFiscal();
+            var notaFiscais = await _notaFiscalService.GetAll();
             if (notaFiscais == null || !notaFiscais.Any())
             {
                 return NotFound("Nenhuma nota fiscal encontrada.");
@@ -53,9 +52,9 @@ namespace BrGaapFiscal.Api.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetNotaFiscalById(int id)
+        public async Task<IActionResult> GetNotaFiscalById(long id)
         {
-            var notaFiscal = await _notaFiscalService.GetNotaFiscalById(id);
+            var notaFiscal = await _notaFiscalService.GetById(id);
             if (notaFiscal == null)
             {
                 return NotFound("Nota fiscal não encontrada.");
@@ -67,7 +66,7 @@ namespace BrGaapFiscal.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateNotaFiscal(int id, [FromBody] NotaFiscal notaFiscal)
+        public async Task<IActionResult> UpdateNotaFiscal(long id, [FromBody] NotaFiscal notaFiscal)
         {
             if (notaFiscal == null || notaFiscal.Id != id)
             {
@@ -76,7 +75,7 @@ namespace BrGaapFiscal.Api.Controllers
 
             try
             {
-                await _notaFiscalService.UpdateNotaFiscal(notaFiscal);
+                await _notaFiscalService.Update(notaFiscal);
                 return Ok(notaFiscal);
             }
             catch (KeyNotFoundException)
@@ -92,11 +91,17 @@ namespace BrGaapFiscal.Api.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteNotaFiscal(int id)
+        public async Task<IActionResult> DeleteNotaFiscal(long id)
         {
             try
             {
-                await _notaFiscalService.DeleteNotaFiscalById(id);
+                var notaFiscal = await _notaFiscalService.GetById(id);
+                if (notaFiscal == null)
+                {
+                    return NotFound("Nota fiscal não encontrada.");
+                }
+
+                await _notaFiscalService.Delete(notaFiscal);
                 return NoContent();
             }
             catch (KeyNotFoundException)
