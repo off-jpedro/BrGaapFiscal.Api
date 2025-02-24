@@ -727,7 +727,6 @@
       "BrGaapFiscal.Data/1.0.0": {
         "dependencies": {
           "BrGaapFiscal.Domain": "1.0.0",
-          "BrGaapFiscal.Domain.Core": "1.0.0",
           "Microsoft.EntityFrameworkCore": "9.0.2",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "9.0.3"
         },
@@ -736,16 +735,8 @@
         }
       },
       "BrGaapFiscal.Domain/1.0.0": {
-        "dependencies": {
-          "BrGaapFiscal.Domain.Core": "1.0.0"
-        },
         "runtime": {
           "BrGaapFiscal.Domain.dll": {}
-        }
-      },
-      "BrGaapFiscal.Domain.Core/1.0.0": {
-        "runtime": {
-          "BrGaapFiscal.Domain.Core.dll": {}
         }
       }
     }
@@ -1124,11 +1115,6 @@
       "sha512": ""
     },
     "BrGaapFiscal.Domain/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "BrGaapFiscal.Domain.Core/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

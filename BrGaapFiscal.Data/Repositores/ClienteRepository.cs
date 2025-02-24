@@ -17,15 +17,15 @@ namespace BrGaapFiscal.Api.Repositores
         public async Task<bool> Add(Cliente entity)
         {
             await _context.Clientes.AddAsync(entity);
-            await _context.SaveChangesAsync();
-            return true;
+            var rowsAffected = await _context.SaveChangesAsync();
+            return rowsAffected > 0;
         }
 
         public async Task<bool> Remove(Cliente entity)
         {
             _context.Clientes.Remove(entity);
-            await _context.SaveChangesAsync();
-            return true;
+            var rowsAffected = await _context.SaveChangesAsync();
+            return rowsAffected > 0;
         }
 
         public async Task<bool> Update(Cliente entity)
@@ -42,7 +42,7 @@ namespace BrGaapFiscal.Api.Repositores
             return await _context.Clientes.ToListAsync();
         }
 
-        public async Task<Cliente> GetById(long id)
+        public async Task<Cliente?> GetById(long id)
         {
             return await _context.Clientes.FirstOrDefaultAsync(n => n.Id == id);
         }

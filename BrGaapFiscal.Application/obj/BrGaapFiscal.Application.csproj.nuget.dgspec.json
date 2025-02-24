@@ -97,9 +97,6 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\BrGaapFiscal\\BrGaapFiscal.Domain.Core\\BrGaapFiscal.Domain.Core.csproj": {
-                "projectPath": "C:\\BrGaapFiscal\\BrGaapFiscal.Domain.Core\\BrGaapFiscal.Domain.Core.csproj"
-              },
               "C:\\BrGaapFiscal\\BrGaapFiscal.Domain\\BrGaapFiscal.Domain.csproj": {
                 "projectPath": "C:\\BrGaapFiscal\\BrGaapFiscal.Domain\\BrGaapFiscal.Domain.csproj"
               }
@@ -156,67 +153,6 @@
         }
       }
     },
-    "C:\\BrGaapFiscal\\BrGaapFiscal.Domain.Core\\BrGaapFiscal.Domain.Core.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "C:\\BrGaapFiscal\\BrGaapFiscal.Domain.Core\\BrGaapFiscal.Domain.Core.csproj",
-        "projectName": "BrGaapFiscal.Domain.Core",
-        "projectPath": "C:\\BrGaapFiscal\\BrGaapFiscal.Domain.Core\\BrGaapFiscal.Domain.Core.csproj",
-        "packagesPath": "C:\\Users\\João Pedro\\.nuget\\packages\\",
-        "outputPath": "C:\\BrGaapFiscal\\BrGaapFiscal.Domain.Core\\obj\\",
-        "projectStyle": "PackageReference",
-        "configFilePaths": [
-          "C:\\Users\\João Pedro\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
-        ],
-        "originalTargetFrameworks": [
-          "net8.0"
-        ],
-        "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
-          "https://api.nuget.org/v3/index.json": {}
-        },
-        "frameworks": {
-          "net8.0": {
-            "targetAlias": "net8.0",
-            "projectReferences": {}
-          }
-        },
-        "warningProperties": {
-          "warnAsError": [
-            "NU1605"
-          ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
-        }
-      },
-      "frameworks": {
-        "net8.0": {
-          "targetAlias": "net8.0",
-          "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48",
-            "net481"
-          ],
-          "assetTargetFallback": true,
-          "warn": true,
-          "frameworkReferences": {
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
-        }
-      }
-    },
     "C:\\BrGaapFiscal\\BrGaapFiscal.Domain\\BrGaapFiscal.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -241,11 +177,7 @@
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
-            "projectReferences": {
-              "C:\\BrGaapFiscal\\BrGaapFiscal.Domain.Core\\BrGaapFiscal.Domain.Core.csproj": {
-                "projectPath": "C:\\BrGaapFiscal\\BrGaapFiscal.Domain.Core\\BrGaapFiscal.Domain.Core.csproj"
-              }
-            }
+            "projectReferences": {}
           }
         },
         "warningProperties": {

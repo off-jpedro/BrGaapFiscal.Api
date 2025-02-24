@@ -17,15 +17,15 @@ namespace BrGaapFiscal.Api.Repositores
         public async Task<bool> Add(Fornecedor entity)
         {
             await _context.Fornecedores.AddAsync(entity);
-            await _context.SaveChangesAsync();
-            return true;
+            var rowsAffected = await _context.SaveChangesAsync();
+            return rowsAffected > 0;
         }
 
         public async Task<bool> Remove(Fornecedor entity)
         {
             _context.Fornecedores.Remove(entity);
-            await _context.SaveChangesAsync();
-            return true;
+            var rowsAffected = await _context.SaveChangesAsync();
+            return rowsAffected > 0;
         }
 
         public async Task<bool> Update(Fornecedor entity)

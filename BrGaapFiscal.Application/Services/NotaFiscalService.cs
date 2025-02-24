@@ -3,6 +3,8 @@ using BrGaapFiscal.Api.Services.Interfaces;
 using BrGaapFiscal.Domain.Models;
 using System.Transactions;
 using Microsoft.Extensions.Logging;
+using BrGaapFiscal.Application.Exceptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace BrGaapFiscal.Api.Services
 {
@@ -32,13 +34,13 @@ namespace BrGaapFiscal.Api.Services
                 var notasFiscais = await _notaFiscalRepository.GetAll();
                 if (notasFiscais == null || !notasFiscais.Any())
                 {
-                    throw new KeyNotFoundException("Nenhuma nota fiscal encontrada.");
+                    throw new BusinessException("Nenhuma nota fiscal encontrada.");
                 }
                 return notasFiscais;
             }
             catch (Exception ex)
             {
-                throw new KeyNotFoundException($"Erro ao buscar as notas fiscais. {ex.Message}");
+                throw new BusinessException($"Erro ao pesquisar as notas fiscais! {ex.Message}");
             }
         }
 
@@ -61,67 +63,98 @@ namespace BrGaapFiscal.Api.Services
 
         public async Task<bool> Insert(NotaFiscal entity)
         {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity.Cliente == null) throw new ArgumentNullException(nameof(entity.Cliente));
+            if (entity.Fornecedor == null) throw new ArgumentNullException(nameof(entity.Fornecedor));
+
             using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 try
                 {
-                    var notaExistente = await _notaFiscalRepository.GetById(entity.Id);
-                    if (notaExistente != null)
-                    {
-                        throw new ArgumentException("A nota fiscal com esse Id já existe.");
-                    }
-
-                    var cliente = await _clienteService.GetById(entity.Cliente.Id);
+                    var cliente = await _clienteService.GetById(entity.Cliente.Id).ConfigureAwait(false);
                     if (cliente == null)
                     {
-                        await _clienteService.Insert(entity.Cliente);
+                        await _clienteService.Insert(entity.Cliente).ConfigureAwait(false);
                     }
                     else
                     {
                         entity.Cliente = cliente;
                     }
 
-                    var fornecedor = await _fornecedorService.GetById(entity.Fornecedor.Id);
+                    var fornecedor = await _fornecedorService.GetById(entity.Fornecedor.Id).ConfigureAwait(false);
                     if (fornecedor == null)
                     {
-                        await _fornecedorService.Insert(entity.Fornecedor);
+                        await _fornecedorService.Insert(entity.Fornecedor).ConfigureAwait(false);
                     }
                     else
                     {
                         entity.Fornecedor = fornecedor;
                     }
 
-                    var result = await _notaFiscalRepository.Add(entity);
-                    transaction.Complete();
-                    return result;
+                    var result = await _notaFiscalRepository.Add(entity).ConfigureAwait(false);
+                    if (result)
+                    {
+                        transaction.Complete();
+                        return true;
+                    }
+                    else
+                    {
+                        throw new BusinessException("Falha ao inserir a Nota Fiscal");
+                    }
+                }
+                catch (ArgumentNullException ex)
+                {
+                    _logger.LogError(ex, "Argumento nulo ao inserir a nota fiscal");
+                    throw new BusinessException($"Erro ao inserir a nota fiscal. Argumento nulo: {ex.Message}");
+                }
+                catch (DbUpdateException ex)
+                {
+                    _logger.LogError(ex, "Erro ao atualizar o banco de dados ao inserir a nota fiscal");
+                    throw new BusinessException($"Erro ao inserir a nota fiscal. Problema no banco de dados: {ex.Message}");
                 }
                 catch (Exception ex)
                 {
-                    throw new KeyNotFoundException($"Erro ao inserir a nota fiscal. {ex.Message}");
+                    _logger.LogError(ex, "Erro ao inserir a nota fiscal");
+                    throw new BusinessException($"Erro ao inserir a nota fiscal. {ex.Message}");
                 }
             }
         }
 
         public async Task<bool> Delete(NotaFiscal entity)
         {
-            var notaFiscal = await _notaFiscalRepository.GetById(entity.Id);
-            if (notaFiscal == null)
+            try
             {
-                throw new KeyNotFoundException("Nota Fiscal não encontrada.");
-            }
+                var notaFiscal = await _notaFiscalRepository.GetById(entity.Id).ConfigureAwait(false);
+                if (notaFiscal == null)
+                {
+                    throw new KeyNotFoundException("Nota Fiscal não encontrada.");
+                }
 
-            return await _notaFiscalRepository.Remove(entity);
+                return await _notaFiscalRepository.Remove(entity).ConfigureAwait(false);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                _logger.LogError(ex, "Erro ao deletar a nota fiscal: Nota Fiscal não encontrada.");
+                throw new KeyNotFoundException("Erro ao deletar a nota fiscal: Nota Fiscal não encontrada.", ex);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao deletar a nota fiscal.");
+                throw new KeyNotFoundException("Erro ao deletar a nota fiscal.", ex);
+            }
         }
 
         public async Task<bool> Update(NotaFiscal entity)
         {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+
             using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 try
                 {
                     _logger.LogInformation($"Iniciando atualização da nota fiscal com ID: {entity.Id}");
 
-                    var existeNotaFiscal = await _notaFiscalRepository.GetById(entity.Id);
+                    var existeNotaFiscal = await _notaFiscalRepository.GetById(entity.Id).ConfigureAwait(false);
                     if (existeNotaFiscal == null)
                     {
                         _logger.LogWarning($"Nota Fiscal com ID: {entity.Id} não encontrada.");
@@ -130,28 +163,28 @@ namespace BrGaapFiscal.Api.Services
 
                     if (entity.Cliente != null && entity.Cliente.Id > 0)
                     {
-                        var cliente = await _clienteService.GetById(entity.Cliente.Id);
+                        var cliente = await _clienteService.GetById(entity.Cliente.Id).ConfigureAwait(false);
                         if (cliente == null)
                         {
-                            await _clienteService.Insert(entity.Cliente);
+                            await _clienteService.Insert(entity.Cliente).ConfigureAwait(false);
                         }
                         else
                         {
-                            await _clienteService.Update(entity.Cliente);
+                            await _clienteService.Update(entity.Cliente).ConfigureAwait(false);
                         }
                         existeNotaFiscal.Cliente = entity.Cliente;
                     }
 
                     if (entity.Fornecedor != null && entity.Fornecedor.Id > 0)
                     {
-                        var fornecedor = await _fornecedorService.GetById(entity.Fornecedor.Id);
+                        var fornecedor = await _fornecedorService.GetById(entity.Fornecedor.Id).ConfigureAwait(false);
                         if (fornecedor == null)
                         {
-                            await _fornecedorService.Insert(entity.Fornecedor);
+                            await _fornecedorService.Insert(entity.Fornecedor).ConfigureAwait(false);
                         }
                         else
                         {
-                            await _fornecedorService.Update(entity.Fornecedor);
+                            await _fornecedorService.Update(entity.Fornecedor).ConfigureAwait(false);
                         }
                         existeNotaFiscal.Fornecedor = entity.Fornecedor;
                     }
@@ -166,14 +199,36 @@ namespace BrGaapFiscal.Api.Services
                         existeNotaFiscal.ValorNota = entity.ValorNota;
                     }
 
-                    var result = await _notaFiscalRepository.Update(existeNotaFiscal);
-                    transaction.Complete();
-                    return result;
+                    var result = await _notaFiscalRepository.Update(existeNotaFiscal).ConfigureAwait(false);
+                    if (result)
+                    {
+                        transaction.Complete();
+                        return true;
+                    }
+                    else
+                    {
+                        throw new BusinessException("Falha ao atualizar a Nota Fiscal");
+                    }
+                }
+                catch (ArgumentNullException ex)
+                {
+                    _logger.LogError(ex, "Argumento nulo ao atualizar a nota fiscal");
+                    throw new BusinessException($"Erro ao atualizar a nota fiscal. Argumento nulo: {ex.Message}");
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    _logger.LogError(ex, "Erro ao atualizar a nota fiscal: Nota Fiscal não encontrada");
+                    throw new BusinessException($"Erro ao atualizar a nota fiscal: {ex.Message}");
+                }
+                catch (DbUpdateException ex)
+                {
+                    _logger.LogError(ex, "Erro ao atualizar o banco de dados ao atualizar a nota fiscal");
+                    throw new BusinessException($"Erro ao atualizar a nota fiscal. Problema no banco de dados: {ex.Message}");
                 }
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, $"Erro ao atualizar a nota fiscal com ID: {entity.Id}");
-                    throw new KeyNotFoundException($"Erro ao atualizar a nota fiscal. {ex.Message}");
+                    throw new BusinessException($"Erro ao atualizar a nota fiscal. {ex.Message}");
                 }
             }
         }

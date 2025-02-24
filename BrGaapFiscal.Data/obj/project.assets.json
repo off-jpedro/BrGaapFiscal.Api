@@ -969,24 +969,11 @@
       "BrGaapFiscal.Domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
-        "dependencies": {
-          "BrGaapFiscal.Domain.Core": "1.0.0"
-        },
         "compile": {
           "bin/placeholder/BrGaapFiscal.Domain.dll": {}
         },
         "runtime": {
           "bin/placeholder/BrGaapFiscal.Domain.dll": {}
-        }
-      },
-      "BrGaapFiscal.Domain.Core/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v8.0",
-        "compile": {
-          "bin/placeholder/BrGaapFiscal.Domain.Core.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/BrGaapFiscal.Domain.Core.dll": {}
         }
       }
     }
@@ -2920,17 +2907,11 @@
       "type": "project",
       "path": "../BrGaapFiscal.Domain/BrGaapFiscal.Domain.csproj",
       "msbuildProject": "../BrGaapFiscal.Domain/BrGaapFiscal.Domain.csproj"
-    },
-    "BrGaapFiscal.Domain.Core/1.0.0": {
-      "type": "project",
-      "path": "../BrGaapFiscal.Domain.Core/BrGaapFiscal.Domain.Core.csproj",
-      "msbuildProject": "../BrGaapFiscal.Domain.Core/BrGaapFiscal.Domain.Core.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
       "BrGaapFiscal.Domain >= 1.0.0",
-      "BrGaapFiscal.Domain.Core >= 1.0.0",
       "Microsoft.EntityFrameworkCore >= 9.0.2",
       "Microsoft.EntityFrameworkCore.Design >= 9.0.2",
       "Npgsql.EntityFrameworkCore.PostgreSQL >= 9.0.3"
@@ -2964,9 +2945,6 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\BrGaapFiscal\\BrGaapFiscal.Domain.Core\\BrGaapFiscal.Domain.Core.csproj": {
-              "projectPath": "C:\\BrGaapFiscal\\BrGaapFiscal.Domain.Core\\BrGaapFiscal.Domain.Core.csproj"
-            },
             "C:\\BrGaapFiscal\\BrGaapFiscal.Domain\\BrGaapFiscal.Domain.csproj": {
               "projectPath": "C:\\BrGaapFiscal\\BrGaapFiscal.Domain\\BrGaapFiscal.Domain.csproj"
             }
