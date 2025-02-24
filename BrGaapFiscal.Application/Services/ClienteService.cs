@@ -44,11 +44,7 @@ namespace BrGaapFiscal.Api.Services
                         throw new BusinessException("Falha ao inserir o cliente.");
                     }
                 }
-                catch (ArgumentException ex)
-                {
-                    _logger.LogError(ex, "Erro ao inserir o cliente: Cliente já existe.");
-                    throw;
-                }
+
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, "Erro ao inserir o cliente.");
@@ -64,18 +60,13 @@ namespace BrGaapFiscal.Api.Services
             try
             {
                 var cliente = await _clienteRepository.GetById(entity.Id).ConfigureAwait(false);
-                if (cliente == null)
+                if (cliente == null || cliente.Id <= 0)
                 {
                     _logger.LogWarning("Cliente não encontrado com o ID: {ClienteId}", entity.Id);
                     throw new KeyNotFoundException("Cliente não encontrado(a).");
                 }
 
                 return await _clienteRepository.Remove(entity).ConfigureAwait(false);
-            }
-            catch (KeyNotFoundException ex)
-            {
-                _logger.LogError(ex, "Erro ao deletar o cliente: Cliente não encontrado.");
-                throw;
             }
             catch (Exception ex)
             {
@@ -88,18 +79,12 @@ namespace BrGaapFiscal.Api.Services
         {
             try
             {
-                var clientes = await _clienteRepository.GetAll().ConfigureAwait(false);
-                if (clientes == null || !clientes.Any())
-                {
-                    _logger.LogWarning("Nenhum cliente encontrado.");
-                    throw new BusinessException("Nenhum cliente encontrado.");
-                }
-                return clientes;
+                return await _clienteRepository.GetAll();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro ao buscar clientes.");
-                throw new BusinessException($"Erro ao buscar clientes. {ex.Message}");
+                _logger.LogError(ex, "Erro ao pesquisar os clientes!");
+                throw new BusinessException($"Erro ao pesquisar os clientes! {ex.Message}");
             }
         }
 
@@ -115,11 +100,6 @@ namespace BrGaapFiscal.Api.Services
                 }
 
                 return cliente;
-            }
-            catch (KeyNotFoundException ex)
-            {
-                _logger.LogError(ex, "Erro ao buscar o cliente: Cliente não encontrado.");
-                throw;
             }
             catch (Exception ex)
             {
@@ -155,11 +135,6 @@ namespace BrGaapFiscal.Api.Services
                     {
                         throw new BusinessException("Falha ao atualizar o cliente.");
                     }
-                }
-                catch (KeyNotFoundException ex)
-                {
-                    _logger.LogError(ex, "Erro ao atualizar o cliente: Cliente não encontrado.");
-                    throw;
                 }
                 catch (Exception ex)
                 {

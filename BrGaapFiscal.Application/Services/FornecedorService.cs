@@ -34,21 +34,15 @@ namespace BrGaapFiscal.Api.Services
                     }
 
                     var result = await _repository.Add(entity).ConfigureAwait(false);
-                    if (result)
-                    {
-                        transaction.Complete();
-                        return true;
-                    }
-                    else
+                    if (!result)
                     {
                         throw new BusinessException("Falha ao inserir o fornecedor.");
                     }
+
+                    transaction.Complete();
+                    return true;
                 }
-                catch (ArgumentException ex)
-                {
-                    _logger.LogError(ex, "Erro ao inserir o fornecedor: Fornecedor já existe.");
-                    throw;
-                }
+
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, "Erro ao inserir o fornecedor.");
@@ -64,7 +58,7 @@ namespace BrGaapFiscal.Api.Services
             try
             {
                 var fornecedor = await _repository.GetById(entity.Id).ConfigureAwait(false);
-                if (fornecedor == null)
+                if (fornecedor == null || fornecedor.Id <= 0)
                 {
                     _logger.LogWarning("Fornecedor não encontrado com o ID: {FornecedorId}", entity.Id);
                     throw new KeyNotFoundException("Fornecedor não encontrado(a).");
@@ -88,18 +82,12 @@ namespace BrGaapFiscal.Api.Services
         {
             try
             {
-                var fornecedores = await _repository.GetAll().ConfigureAwait(false);
-                if (fornecedores == null || !fornecedores.Any())
-                {
-                    _logger.LogWarning("Nenhum fornecedor encontrado.");
-                    throw new BusinessException("Nenhum fornecedor encontrado.");
-                }
-                return fornecedores;
+                return await _repository.GetAll();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro ao buscar fornecedores.");
-                throw new BusinessException($"Erro ao buscar fornecedores. {ex.Message}");
+                _logger.LogError(ex, "Erro ao pesquisar os fornecedores!");
+                throw new BusinessException($"Erro ao pesquisar os fornecedores! {ex.Message}");
             }
         }
 
@@ -115,11 +103,6 @@ namespace BrGaapFiscal.Api.Services
                 }
 
                 return fornecedor;
-            }
-            catch (KeyNotFoundException ex)
-            {
-                _logger.LogError(ex, "Erro ao buscar o fornecedor: Fornecedor não encontrado.");
-                throw;
             }
             catch (Exception ex)
             {
@@ -146,20 +129,13 @@ namespace BrGaapFiscal.Api.Services
                     existeFornecedor.Nome = entity.Nome;
 
                     var result = await _repository.Update(existeFornecedor).ConfigureAwait(false);
-                    if (result)
-                    {
-                        transaction.Complete();
-                        return true;
-                    }
-                    else
+                    if (!result)
                     {
                         throw new BusinessException("Falha ao atualizar o fornecedor.");
                     }
-                }
-                catch (KeyNotFoundException ex)
-                {
-                    _logger.LogError(ex, "Erro ao atualizar o fornecedor: Fornecedor não encontrado.");
-                    throw;
+
+                    transaction.Complete();
+                    return true;
                 }
                 catch (Exception ex)
                 {
