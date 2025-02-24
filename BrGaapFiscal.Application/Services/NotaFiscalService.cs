@@ -71,10 +71,10 @@ namespace BrGaapFiscal.Api.Services
                     throw new ArgumentNullException(nameof(entity));
 
                 if (entity.Cliente == null || entity.Cliente.Id <= 0 || string.IsNullOrEmpty(entity.Cliente.Nome))
-                    throw new ArgumentException("Cliente inválido. Veja se está preenchendo os campos obrigatórios");
+                    throw new ArgumentNullException("Cliente inválido. Veja se está preenchendo os campos obrigatórios");
 
                 if (entity.Fornecedor == null || entity.Fornecedor.Id <= 0 || string.IsNullOrEmpty(entity.Fornecedor.Nome))
-                    throw new ArgumentException("Fornecedor inválido. Veja se está preenchendo os campos obrigatórios");
+                    throw new ArgumentNullException("Fornecedor inválido. Veja se está preenchendo os campos obrigatórios");
 
                 var cliente = await _clienteService.GetById(entity.Cliente.Id);
                 if (cliente == null || cliente.Id <= 0)
@@ -104,10 +104,20 @@ namespace BrGaapFiscal.Api.Services
 
                 return true;
             }
+            catch (ArgumentNullException ex)
+            {
+                _logger.LogError(ex, "Erro ao inserir a nota fiscal: argumento nulo.");
+                throw;
+            }
+            catch (BusinessException ex)
+            {
+                _logger.LogError(ex, "Erro ao inserir a nota fiscal: falha na lógica de negócios.");
+                throw;
+            }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro ao inserir a nota fiscal");
-                throw;
+                _logger.LogError(ex, "Erro ao inserir a nota fiscal.");
+                throw new BusinessException($"Erro ao inserir a nota fiscal. {ex.Message}");
             }
         }
 

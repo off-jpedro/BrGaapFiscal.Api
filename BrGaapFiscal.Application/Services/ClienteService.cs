@@ -37,15 +37,19 @@ namespace BrGaapFiscal.Api.Services
                 var cliente = await _clienteRepository.GetById(id);
                 if (cliente == null || cliente.Id <= 0)
                 {
-                    _logger.LogWarning("Cliente não encontrado com o ID: {ClienteId}", id);
                     throw new KeyNotFoundException("Cliente não encontrado.");
                 }
                 return cliente;
             }
+            catch (KeyNotFoundException kex)
+            {
+                _logger.LogWarning($"Cliente com ID: {id} não encontrado.");
+                throw;
+            }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro ao buscar o cliente com ID: {ClienteId}", id);
-                throw new BusinessException($"Erro ao buscar o cliente com ID: {id}. {ex.Message}");
+                _logger.LogError(ex, $"Erro ao buscar o Cliente com ID: {id}");
+                throw new BusinessException($"Erro ao buscar o Cliente com ID: {id}. {ex.Message}");
             }
         }
 
@@ -55,13 +59,6 @@ namespace BrGaapFiscal.Api.Services
             {
                 if (entity == null)
                     throw new ArgumentNullException(nameof(entity));
-
-                var clienteExistente = await _clienteRepository.GetById(entity.Id);
-                if (clienteExistente != null && clienteExistente.Id > 0)
-                {
-                    _logger.LogWarning("Cliente já existe com o ID: {ClienteId}", entity.Id);
-                    throw new ArgumentException("Cliente já existe.");
-                }
 
                 var result = await _clienteRepository.Add(entity);
                 if (!result)
@@ -102,9 +99,14 @@ namespace BrGaapFiscal.Api.Services
 
                 return true;
             }
+            catch (KeyNotFoundException kex)
+            {
+                _logger.LogWarning($"Cliente com ID: {entity.Id} não encontrado.");
+                throw;
+            }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro ao atualizar o cliente com ID: {ClienteId}", entity.Id);
+                _logger.LogError(ex, $"Erro ao atualizar o Cliente com ID: {entity.Id}");
                 throw;
             }
         }
@@ -125,10 +127,20 @@ namespace BrGaapFiscal.Api.Services
 
                 return await _clienteRepository.Remove(entity);
             }
+            catch (ArgumentNullException aex)
+            {
+                _logger.LogWarning($"Cliente com ID: {entity.Id} não informado.");
+                throw;
+            }
+            catch (KeyNotFoundException kex)
+            {
+                _logger.LogWarning($"Cliente com ID: {entity.Id} não encontrado.");
+                throw;
+            }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro ao deletar o cliente com ID: {ClienteId}", entity.Id);
-                throw new BusinessException($"Erro ao deletar o cliente com ID: {entity.Id}. {ex.Message}");
+                _logger.LogError(ex, $"Erro ao deletar o Cliente com ID: {entity.Id}");
+                throw new BusinessException($"Erro ao deletar o Cliente com ID: {entity.Id}. {ex.Message}");
             }
         }
     }
