@@ -1,10 +1,8 @@
-﻿using BrGaapFiscal.Api.Repositores;
-using BrGaapFiscal.Api.Repositores.Interfaces;
+﻿using BrGaapFiscal.Api.Repositores.Interfaces;
 using BrGaapFiscal.Api.Services.Interfaces;
 using BrGaapFiscal.Application.Exceptions;
 using BrGaapFiscal.Domain.Models;
 using Microsoft.Extensions.Logging;
-using System.Transactions;
 
 namespace BrGaapFiscal.Api.Services
 {
@@ -19,62 +17,6 @@ namespace BrGaapFiscal.Api.Services
             _logger = logger;
         }
 
-        public async Task<bool> Insert(Fornecedor entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-
-            using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-            {
-                try
-                {
-                    var fornecedorExistente = await _repository.GetById(entity.Id).ConfigureAwait(false);
-                    if (fornecedorExistente != null)
-                    {
-                        _logger.LogWarning("Fornecedor já existe com o ID: {FornecedorId}", entity.Id);
-                        throw new ArgumentException("Fornecedor já existe.");
-                    }
-
-                    var result = await _repository.Add(entity).ConfigureAwait(false);
-                    if (!result)
-                    {
-                        throw new BusinessException("Falha ao inserir o Fornecedor");
-                    }
-
-                    transaction.Complete();
-                    return true;
-                }
-
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "Erro ao inserir o fornecedor.");
-                    throw new BusinessException($"Erro ao inserir o fornecedor. {ex.Message}");
-                }
-            }
-        }
-
-        public async Task<bool> Delete(Fornecedor entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-
-            try
-            {
-                var fornecedor = await _repository.GetById(entity.Id).ConfigureAwait(false);
-                if (fornecedor == null || fornecedor.Id <= 0)
-                {
-                    _logger.LogWarning("Fornecedor não encontrado com o ID: {FornecedorId}", entity.Id);
-                    throw new KeyNotFoundException("Fornecedor não encontrado(a).");
-                }
-
-                return await _repository.Remove(entity).ConfigureAwait(false);
-            }
-
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Erro ao deletar o fornecedor.");
-                throw new BusinessException($"Erro ao deletar o fornecedor. {ex.Message}");
-            }
-        }
-
         public async Task<IEnumerable<Fornecedor>> GetAll()
         {
             try
@@ -83,8 +25,8 @@ namespace BrGaapFiscal.Api.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro ao pesquisar os fornecedores!");
-                throw new BusinessException($"Erro ao pesquisar os fornecedores! {ex.Message}");
+                _logger.LogError(ex, "Erro ao pesquisar os fornecedores.");
+                throw new BusinessException("Erro ao pesquisar os fornecedores.");
             }
         }
 
@@ -92,53 +34,110 @@ namespace BrGaapFiscal.Api.Services
         {
             try
             {
-                var fornecedor = await _repository.GetById(id).ConfigureAwait(false);
-                if (fornecedor == null)
+                var fornecedor = await _repository.GetById(id);
+                if (fornecedor == null || fornecedor.Id <= 0)
                 {
                     _logger.LogWarning("Fornecedor não encontrado com o ID: {FornecedorId}", id);
-                    throw new KeyNotFoundException("Fornecedor não encontrado(a).");
+                    throw new KeyNotFoundException("Fornecedor não encontrado.");
                 }
 
                 return fornecedor;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro ao buscar o fornecedor.");
-                throw new BusinessException($"Erro ao buscar o fornecedor. {ex.Message}");
+                _logger.LogError(ex, "Erro ao buscar o fornecedor com ID: {FornecedorId}", id);
+                throw new BusinessException($"Erro ao buscar o fornecedor com ID: {id}.");
+            }
+        }
+
+        public async Task<bool> Insert(Fornecedor entity)
+        {
+            try
+            {
+                if (entity == null)
+                    throw new ArgumentNullException(nameof(entity));
+
+                var fornecedorExistente = await _repository.GetById(entity.Id);
+                if (fornecedorExistente != null)
+                {
+                    _logger.LogWarning("Fornecedor já existe com o ID: {FornecedorId}", entity.Id);
+                    throw new ArgumentException("Fornecedor já existe.");
+                }
+
+                var result = await _repository.Add(entity);
+                if (!result)
+                {
+                    throw new BusinessException("Falha ao inserir o fornecedor.");
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao inserir o fornecedor.");
+                throw;
             }
         }
 
         public async Task<bool> Update(Fornecedor entity)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-
-            using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            try
             {
-                try
+                if (entity == null || entity.Id <= 0)
+                    throw new ArgumentNullException(nameof(entity));
+
+                var fornecedorExistente = await _repository.GetById(entity.Id);
+                if (fornecedorExistente == null)
                 {
-                    var existeFornecedor = await _repository.GetById(entity.Id).ConfigureAwait(false);
-                    if (existeFornecedor == null)
-                    {
-                        _logger.LogWarning("Fornecedor não encontrado com o ID: {FornecedorId}", entity.Id);
-                        throw new KeyNotFoundException("Fornecedor não encontrado(a).");
-                    }
-
-                    existeFornecedor.Nome = entity.Nome;
-
-                    var result = await _repository.Add(entity).ConfigureAwait(false);
-                    if (!result)
-                    {
-                        throw new BusinessException("Falha ao inserir o Fornecedor");
-                    }
-
-                    transaction.Complete();
-                    return true;
+                    _logger.LogWarning("Fornecedor não encontrado com o ID: {FornecedorId}", entity.Id);
+                    throw new KeyNotFoundException("Fornecedor não encontrado.");
                 }
-                catch (Exception ex)
+
+                fornecedorExistente.Nome = entity.Nome;
+
+                var result = await _repository.Update(fornecedorExistente);
+                if (!result)
                 {
-                    _logger.LogError(ex, "Erro ao atualizar o fornecedor.");
-                    throw new BusinessException($"Erro ao atualizar o fornecedor. {ex.Message}");
+                    throw new BusinessException("Falha ao atualizar o fornecedor.");
                 }
+
+                return true;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao atualizar o fornecedor com ID: {FornecedorId}", entity.Id);
+                throw;
+            }
+        }
+
+        public async Task<bool> Delete(Fornecedor entity)
+        {
+            try
+            {
+                if (entity == null || entity.Id <= 0)
+                    throw new ArgumentNullException(nameof(entity));
+
+                var fornecedor = await _repository.GetById(entity.Id);
+                if (fornecedor == null)
+                {
+                    _logger.LogWarning("Fornecedor não encontrado com o ID: {FornecedorId}", entity.Id);
+                    throw new KeyNotFoundException("Fornecedor não encontrado.");
+                }
+
+                return await _repository.Remove(entity);
+            }
+            catch (KeyNotFoundException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao deletar o fornecedor com ID: {FornecedorId}", entity.Id);
+                throw new BusinessException($"Erro ao deletar o fornecedor com ID: {entity.Id}.");
             }
         }
     }
