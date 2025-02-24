@@ -1,4 +1,5 @@
-﻿using BrGaapFiscal.Api.Repositores.Interfaces;
+﻿using BrGaapFiscal.Api.Repositores;
+using BrGaapFiscal.Api.Repositores.Interfaces;
 using BrGaapFiscal.Api.Services.Interfaces;
 using BrGaapFiscal.Application.Exceptions;
 using BrGaapFiscal.Domain.Models;
@@ -36,7 +37,7 @@ namespace BrGaapFiscal.Api.Services
                     var result = await _repository.Add(entity).ConfigureAwait(false);
                     if (!result)
                     {
-                        throw new BusinessException("Falha ao inserir o fornecedor.");
+                        throw new BusinessException("Falha ao inserir o Fornecedor");
                     }
 
                     transaction.Complete();
@@ -66,11 +67,7 @@ namespace BrGaapFiscal.Api.Services
 
                 return await _repository.Remove(entity).ConfigureAwait(false);
             }
-            catch (KeyNotFoundException ex)
-            {
-                _logger.LogError(ex, "Erro ao deletar o fornecedor: Fornecedor não encontrado.");
-                throw;
-            }
+
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Erro ao deletar o fornecedor.");
@@ -128,10 +125,10 @@ namespace BrGaapFiscal.Api.Services
 
                     existeFornecedor.Nome = entity.Nome;
 
-                    var result = await _repository.Update(existeFornecedor).ConfigureAwait(false);
+                    var result = await _repository.Add(entity).ConfigureAwait(false);
                     if (!result)
                     {
-                        throw new BusinessException("Falha ao atualizar o fornecedor.");
+                        throw new BusinessException("Falha ao inserir o Fornecedor");
                     }
 
                     transaction.Complete();

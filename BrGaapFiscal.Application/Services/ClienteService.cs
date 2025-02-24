@@ -34,15 +34,13 @@ namespace BrGaapFiscal.Api.Services
                     }
 
                     var result = await _clienteRepository.Add(entity).ConfigureAwait(false);
-                    if (result)
+                    if (!result)
                     {
-                        transaction.Complete();
-                        return true;
+                        throw new BusinessException("Falha ao inserir o Cliente.");
                     }
-                    else
-                    {
-                        throw new BusinessException("Falha ao inserir o cliente.");
-                    }
+
+                    transaction.Complete();
+                    return true;
                 }
 
                 catch (Exception ex)
@@ -125,16 +123,15 @@ namespace BrGaapFiscal.Api.Services
 
                     existeCliente.Nome = entity.Nome;
 
-                    var result = await _clienteRepository.Update(existeCliente).ConfigureAwait(false);
-                    if (result)
+                    var result = await _clienteRepository.Add(entity).ConfigureAwait(false);
+                    if (!result)
                     {
-                        transaction.Complete();
-                        return true;
+                        throw new BusinessException("Falha ao inserir o Cliente.");
                     }
-                    else
-                    {
-                        throw new BusinessException("Falha ao atualizar o cliente.");
-                    }
+
+                    transaction.Complete();
+                    return true;
+
                 }
                 catch (Exception ex)
                 {
