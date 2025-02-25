@@ -8,14 +8,14 @@ using BrGaapFiscal.Infra.Data.Repositores.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Adicionando o CORS
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
     {
-        policy.AllowAnyOrigin()  // Permite qualquer origem
-              .AllowAnyMethod()  // Permite qualquer método HTTP (GET, POST, etc.)
-              .AllowAnyHeader(); // Permite qualquer cabeçalho
+        policy.AllowAnyOrigin()  
+              .AllowAnyMethod()  
+              .AllowAnyHeader(); 
     });
 });
 
@@ -36,15 +36,13 @@ builder.Services.AddScoped<IFornecedorService, FornecedorService>();
 
 var app = builder.Build();
 
-// Configuração do Swagger para desenvolvimento
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// Adicionando o CORS na pipeline de requisição
-app.UseCors("AllowAll");  // Essa linha permite que qualquer origem acesse a API
+app.UseCors("AllowAll");  
 
 app.UseHttpsRedirection();
 app.UseAuthorization();

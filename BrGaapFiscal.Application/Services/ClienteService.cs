@@ -34,11 +34,18 @@ namespace BrGaapFiscal.Api.Services
         {
             try
             {
+                if (id <= 0)
+                {
+                    throw new KeyNotFoundException("ID não informado.");
+                }
+
                 var cliente = await _clienteRepository.GetById(id);
+
                 if (cliente == null || cliente.Id <= 0)
                 {
                     throw new KeyNotFoundException("Cliente não encontrado.");
                 }
+
                 return cliente;
             }
             catch (KeyNotFoundException kex)
@@ -57,16 +64,29 @@ namespace BrGaapFiscal.Api.Services
         {
             try
             {
-                if (entity == null)
+                if (entity == null || entity.Id <= 0 || string.IsNullOrEmpty(entity.Nome))
+                {
                     throw new ArgumentNullException(nameof(entity));
+                }
 
                 var result = await _clienteRepository.Add(entity);
+
                 if (!result)
                 {
                     throw new BusinessException("Falha ao inserir o Cliente.");
                 }
 
                 return true;
+            }
+            catch (ArgumentNullException aex)
+            {
+                _logger.LogWarning(aex, "Erro nos dados do cliente.");
+                throw;
+            }
+            catch (BusinessException bex)
+            {
+                _logger.LogWarning(bex, "Erro ao inserir o cliente.");
+                throw;
             }
             catch (Exception ex)
             {
@@ -79,19 +99,22 @@ namespace BrGaapFiscal.Api.Services
         {
             try
             {
-                if (entity == null || entity.Id <= 0)
+                if (entity == null || entity.Id <= 0 || string.IsNullOrEmpty(entity.Nome))
+                {
                     throw new ArgumentNullException(nameof(entity));
+                }
 
                 var existeCliente = await _clienteRepository.GetById(entity.Id);
+
                 if (existeCliente == null || existeCliente.Id <= 0)
                 {
-                    _logger.LogWarning("Cliente não encontrado com o ID: {ClienteId}", entity.Id);
                     throw new KeyNotFoundException("Cliente não encontrado.");
                 }
 
                 existeCliente.Nome = entity.Nome;
 
                 var result = await _clienteRepository.Update(existeCliente);
+
                 if (!result)
                 {
                     throw new BusinessException("Falha ao atualizar o Cliente.");
@@ -99,9 +122,19 @@ namespace BrGaapFiscal.Api.Services
 
                 return true;
             }
+            catch (ArgumentNullException aex)
+            {
+                _logger.LogWarning(aex, "Erro nos dados do cliente.");
+                throw;
+            }
             catch (KeyNotFoundException kex)
             {
                 _logger.LogWarning($"Cliente com ID: {entity.Id} não encontrado.");
+                throw;
+            }
+            catch (BusinessException bex)
+            {
+                _logger.LogWarning(bex, "Erro ao atualizar o cliente.");
                 throw;
             }
             catch (Exception ex)
@@ -116,25 +149,39 @@ namespace BrGaapFiscal.Api.Services
             try
             {
                 if (entity == null || entity.Id <= 0)
+                {
                     throw new ArgumentNullException("id", "ID do Cliente não informado.");
+                }
 
                 var cliente = await _clienteRepository.GetById(entity.Id);
+
                 if (cliente == null || cliente.Id <= 0)
                 {
-                    _logger.LogWarning("Cliente não encontrado com o ID: {ClienteId}", entity.Id);
                     throw new KeyNotFoundException("Cliente não encontrado.");
                 }
 
-                return await _clienteRepository.Remove(entity);
+                var result = await _clienteRepository.Remove(cliente);
+
+                if (!result)
+                {
+                    throw new BusinessException("Falha ao excluir o Cliente.");
+                }
+
+                return true;
             }
             catch (ArgumentNullException aex)
             {
-                _logger.LogWarning($"Cliente com ID: {entity.Id} não informado.");
+                _logger.LogWarning(aex, "Erro nos dados do cliente.");
                 throw;
             }
             catch (KeyNotFoundException kex)
             {
                 _logger.LogWarning($"Cliente com ID: {entity.Id} não encontrado.");
+                throw;
+            }
+            catch (BusinessException bex)
+            {
+                _logger.LogWarning(bex, "Erro ao excluir o cliente.");
                 throw;
             }
             catch (Exception ex)

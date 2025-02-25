@@ -5,6 +5,9 @@ using System.Transactions;
 using Microsoft.Extensions.Logging;
 using BrGaapFiscal.Application.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BrGaapFiscal.Api.Services
 {
@@ -44,6 +47,11 @@ namespace BrGaapFiscal.Api.Services
         {
             try
             {
+                if (id <= 0)
+                {
+                    throw new KeyNotFoundException("ID não informado.");
+                }
+
                 var notaFiscal = await _notaFiscalRepository.GetById(id);
                 if (notaFiscal == null || notaFiscal.Id <= 0)
                 {
@@ -67,8 +75,10 @@ namespace BrGaapFiscal.Api.Services
         {
             try
             {
-                if (entity == null)
+                if (entity == null || entity.Id <= 0 || string.IsNullOrEmpty(entity.NumeroNota.ToString()) || entity.ValorNota <= 0)
+                {
                     throw new ArgumentNullException(nameof(entity));
+                }
 
                 if (entity.Cliente == null || entity.Cliente.Id <= 0 || string.IsNullOrEmpty(entity.Cliente.Nome))
                     throw new ArgumentNullException("Cliente inválido. Veja se está preenchendo os campos obrigatórios");
@@ -125,13 +135,23 @@ namespace BrGaapFiscal.Api.Services
         {
             try
             {
-                if (entity == null || entity.Id <= 0)
+                if (entity == null || entity.Id <= 0 || entity.NumeroNota <= 0 || entity.ValorNota <= 0)
                     throw new ArgumentNullException(nameof(entity));
 
                 var existeNotaFiscal = await _notaFiscalRepository.GetById(entity.Id);
                 if (existeNotaFiscal == null || existeNotaFiscal.Id <= 0)
                 {
                     throw new KeyNotFoundException("Nota Fiscal não encontrada.");
+                }
+
+                if (entity.NumeroNota > 0)
+                {
+                    existeNotaFiscal.NumeroNota = entity.NumeroNota;
+                }
+
+                if (entity.ValorNota > 0)
+                {
+                    existeNotaFiscal.ValorNota = entity.ValorNota;
                 }
 
                 var result = await _notaFiscalRepository.Update(existeNotaFiscal);
@@ -142,15 +162,25 @@ namespace BrGaapFiscal.Api.Services
 
                 return true;
             }
+            catch (ArgumentNullException aex)
+            {
+                _logger.LogWarning(aex, "Erro nos dados da nota fiscal.");
+                throw;
+            }
             catch (KeyNotFoundException kex)
             {
                 _logger.LogWarning($"Nota fiscal com ID: {entity.Id} não encontrada.");
                 throw;
             }
+            catch (BusinessException bex)
+            {
+                _logger.LogWarning(bex, "Erro ao atualizar a nota fiscal.");
+                throw;
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Erro ao atualizar a nota fiscal com ID: {entity.Id}");
-                throw;
+                throw new BusinessException($"Erro ao atualizar a nota fiscal com ID: {entity.Id}. {ex.Message}");
             }
         }
 
@@ -159,7 +189,9 @@ namespace BrGaapFiscal.Api.Services
             try
             {
                 if (entity == null || entity.Id <= 0)
+                {
                     throw new ArgumentNullException("id", "ID da Nota fiscal não informado.");
+                }
 
                 var notaFiscal = await _notaFiscalRepository.GetById(entity.Id);
                 if (notaFiscal == null || notaFiscal.Id <= 0)
@@ -167,16 +199,27 @@ namespace BrGaapFiscal.Api.Services
                     throw new KeyNotFoundException("Nota Fiscal não encontrada.");
                 }
 
-                return await _notaFiscalRepository.Remove(entity);
+                var result = await _notaFiscalRepository.Remove(notaFiscal);
+                if (!result)
+                {
+                    throw new BusinessException("Falha ao excluir a Nota Fiscal.");
+                }
+
+                return true;
             }
             catch (ArgumentNullException aex)
             {
-                _logger.LogWarning($"Nota fiscal com ID: {entity.Id} não informado.");
+                _logger.LogWarning(aex, "Erro nos dados da nota fiscal.");
                 throw;
             }
             catch (KeyNotFoundException kex)
             {
                 _logger.LogWarning($"Nota fiscal com ID: {entity.Id} não encontrada.");
+                throw;
+            }
+            catch (BusinessException bex)
+            {
+                _logger.LogWarning(bex, "Erro ao excluir a nota fiscal.");
                 throw;
             }
             catch (Exception ex)

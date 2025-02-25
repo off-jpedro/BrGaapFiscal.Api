@@ -37,6 +37,11 @@ namespace BrGaapFiscal.Api.Services
         {
             try
             {
+                if (id <= 0)
+                {
+                    throw new KeyNotFoundException("ID não informado.");
+                }
+
                 var fornecedor = await _repository.GetById(id);
                 if (fornecedor == null || fornecedor.Id <= 0)
                 {
@@ -60,8 +65,10 @@ namespace BrGaapFiscal.Api.Services
         {
             try
             {
-                if (entity == null)
+                if (entity == null || entity.Id <= 0 || string.IsNullOrEmpty(entity.Nome))
+                {
                     throw new ArgumentNullException(nameof(entity));
+                }
 
                 var result = await _repository.Add(entity);
                 if (!result)
@@ -70,6 +77,16 @@ namespace BrGaapFiscal.Api.Services
                 }
 
                 return true;
+            }
+            catch (ArgumentNullException aex)
+            {
+                _logger.LogWarning(aex, "Erro nos dados do fornecedor.");
+                throw;
+            }
+            catch (BusinessException bex)
+            {
+                _logger.LogWarning(bex, "Erro ao inserir o fornecedor.");
+                throw;
             }
             catch (Exception ex)
             {
@@ -82,13 +99,14 @@ namespace BrGaapFiscal.Api.Services
         {
             try
             {
-                if (entity == null || entity.Id <= 0)
+                if (entity == null || entity.Id <= 0 || string.IsNullOrEmpty(entity.Nome))
+                {
                     throw new ArgumentNullException(nameof(entity));
+                }
 
                 var existeFornecedor = await _repository.GetById(entity.Id);
                 if (existeFornecedor == null || existeFornecedor.Id <= 0)
                 {
-                    _logger.LogWarning("Fornecedor não encontrado com o ID: {FornecedorId}", entity.Id);
                     throw new KeyNotFoundException("Fornecedor não encontrado.");
                 }
 
@@ -102,9 +120,19 @@ namespace BrGaapFiscal.Api.Services
 
                 return true;
             }
+            catch (ArgumentNullException aex)
+            {
+                _logger.LogWarning(aex, "Erro nos dados do fornecedor.");
+                throw;
+            }
             catch (KeyNotFoundException kex)
             {
                 _logger.LogWarning($"Fornecedor com ID: {entity.Id} não encontrado.");
+                throw;
+            }
+            catch (BusinessException bex)
+            {
+                _logger.LogWarning(bex, "Erro ao atualizar o fornecedor.");
                 throw;
             }
             catch (Exception ex)
@@ -119,25 +147,37 @@ namespace BrGaapFiscal.Api.Services
             try
             {
                 if (entity == null || entity.Id <= 0)
+                {
                     throw new ArgumentNullException("id", "ID do Fornecedor não informado.");
+                }
 
                 var fornecedor = await _repository.GetById(entity.Id);
                 if (fornecedor == null || fornecedor.Id <= 0)
                 {
-                    _logger.LogWarning("Fornecedor não encontrado com o ID: {FornecedorId}", entity.Id);
                     throw new KeyNotFoundException("Fornecedor não encontrado.");
                 }
 
-                return await _repository.Remove(entity);
+                var result = await _repository.Remove(fornecedor);
+                if (!result)
+                {
+                    throw new BusinessException("Falha ao excluir o Fornecedor.");
+                }
+
+                return true;
             }
             catch (ArgumentNullException aex)
             {
-                _logger.LogWarning($"Fornecedor com ID: {entity.Id} não informado.");
+                _logger.LogWarning(aex, "Erro nos dados do fornecedor.");
                 throw;
             }
             catch (KeyNotFoundException kex)
             {
                 _logger.LogWarning($"Fornecedor com ID: {entity.Id} não encontrado.");
+                throw;
+            }
+            catch (BusinessException bex)
+            {
+                _logger.LogWarning(bex, "Erro ao excluir o fornecedor.");
                 throw;
             }
             catch (Exception ex)
