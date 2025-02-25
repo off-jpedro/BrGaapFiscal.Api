@@ -147,7 +147,7 @@ namespace BrGaapFiscal.Api.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Erro ao atualizar o Fornecedor com ID: {entity.Id}");
-                throw;
+                throw new BusinessException($"Erro ao atualizar o Fornecedor com ID: {entity.Id}. {ex.Message}");
             }
         }
 

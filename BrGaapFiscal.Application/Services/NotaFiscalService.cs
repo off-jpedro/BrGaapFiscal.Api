@@ -146,6 +146,16 @@ namespace BrGaapFiscal.Api.Services
                 if (entity == null || entity.Id <= 0 || entity.NumeroNota <= 0 || entity.ValorNota <= 0)
                     throw new ArgumentNullException(nameof(entity));
 
+                if (entity.Cliente == null || entity.Cliente.Id <= 0 || string.IsNullOrEmpty(entity.Cliente.Nome))
+                {
+                    throw new ArgumentNullException(nameof(entity));
+                }
+
+                if (entity.Fornecedor == null || entity.Fornecedor.Id <= 0 || string.IsNullOrEmpty(entity.Fornecedor.Nome))
+                {
+                    throw new ArgumentNullException(nameof(entity));
+                }
+
                 var existeNotaFiscal = await _notaFiscalRepository.GetById(entity.Id);
                 if (existeNotaFiscal == null || existeNotaFiscal.Id <= 0)
                 {
