@@ -721,7 +721,10 @@
           "BrGaapFiscal.Domain": "1.0.0"
         },
         "runtime": {
-          "BrGaapFiscal.Application.dll": {}
+          "BrGaapFiscal.Application.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "BrGaapFiscal.Data/1.0.0": {
@@ -731,12 +734,18 @@
           "Npgsql.EntityFrameworkCore.PostgreSQL": "9.0.3"
         },
         "runtime": {
-          "BrGaapFiscal.Data.dll": {}
+          "BrGaapFiscal.Data.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "BrGaapFiscal.Domain/1.0.0": {
         "runtime": {
-          "BrGaapFiscal.Domain.dll": {}
+          "BrGaapFiscal.Domain.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }

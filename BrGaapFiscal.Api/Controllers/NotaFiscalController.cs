@@ -39,15 +39,16 @@ namespace BrGaapFiscal.Api.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetAllNotaFiscal()
+        public async Task<IActionResult> GetAllNotaFiscal([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
-            var notaFiscais = await _notaFiscalService.GetAll();
-            if (notaFiscais == null || !notaFiscais.Any())
+            var notasFiscais = await _notaFiscalService.GetAll(pageNumber, pageSize);
+            if (notasFiscais == null || !notasFiscais.Any())
             {
                 return NotFound("Nenhuma nota fiscal encontrada.");
             }
-            return Ok(notaFiscais);
+            return Ok(notasFiscais);
         }
+
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]

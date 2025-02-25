@@ -39,15 +39,16 @@ namespace BrGaapFiscal.Api.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetAllFornecedor()
+        public async Task<IActionResult> GetAllFornecedor([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
-            var fornecedores = await _fornecedorService.GetAll();
+            var fornecedores = await _fornecedorService.GetAll(pageNumber, pageSize);
             if (fornecedores == null || !fornecedores.Any())
             {
                 return NotFound("Nenhum fornecedor encontrado.");
             }
             return Ok(fornecedores);
         }
+
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
