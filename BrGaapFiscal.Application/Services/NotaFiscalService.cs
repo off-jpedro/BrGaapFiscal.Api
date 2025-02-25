@@ -30,11 +30,14 @@ namespace BrGaapFiscal.Api.Services
             _logger = logger;
         }
 
-        public async Task<IEnumerable<NotaFiscal>> GetAll()
+        public async Task<IEnumerable<NotaFiscal>> GetAll(int pageNumber, int pageSize)
         {
             try
             {
-                return await _notaFiscalRepository.GetAll();
+                if (pageNumber <= 0) pageNumber = 1;
+                if (pageSize <= 0) pageSize = 10;
+
+                return await _notaFiscalRepository.GetAll(pageNumber, pageSize);
             }
             catch (Exception ex)
             {
@@ -49,7 +52,7 @@ namespace BrGaapFiscal.Api.Services
             {
                 if (id <= 0)
                 {
-                    throw new KeyNotFoundException("ID não informado.");
+                    throw new ArgumentNullException("ID não informado.");
                 }
 
                 var notaFiscal = await _notaFiscalRepository.GetById(id);
@@ -62,6 +65,11 @@ namespace BrGaapFiscal.Api.Services
             catch (KeyNotFoundException kex)
             {
                 _logger.LogWarning($"Nota fiscal com ID: {id} não encontrada.");
+                throw;
+            }
+            catch (ArgumentNullException kex)
+            {
+                _logger.LogWarning($"Dados invalidos.");
                 throw;
             }
             catch (Exception ex)
@@ -142,16 +150,6 @@ namespace BrGaapFiscal.Api.Services
                 if (existeNotaFiscal == null || existeNotaFiscal.Id <= 0)
                 {
                     throw new KeyNotFoundException("Nota Fiscal não encontrada.");
-                }
-
-                if (entity.NumeroNota > 0)
-                {
-                    existeNotaFiscal.NumeroNota = entity.NumeroNota;
-                }
-
-                if (entity.ValorNota > 0)
-                {
-                    existeNotaFiscal.ValorNota = entity.ValorNota;
                 }
 
                 var result = await _notaFiscalRepository.Update(existeNotaFiscal);

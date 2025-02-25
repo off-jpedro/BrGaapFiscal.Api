@@ -3438,19 +3438,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\João Pedro\\.nuget\\packages\\": {}
+    "C:\\Users\\joao.silva\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\BrGaapFiscal\\BrGaapFiscal.Api\\BrGaapFiscal.Api.csproj",
+      "projectUniqueName": "C:\\Projeto\\BrGaapFiscal.Api\\BrGaapFiscal.Api\\BrGaapFiscal.Api.csproj",
       "projectName": "BrGaapFiscal.Api",
-      "projectPath": "C:\\BrGaapFiscal\\BrGaapFiscal.Api\\BrGaapFiscal.Api.csproj",
-      "packagesPath": "C:\\Users\\João Pedro\\.nuget\\packages\\",
-      "outputPath": "C:\\BrGaapFiscal\\BrGaapFiscal.Api\\obj\\",
+      "projectPath": "C:\\Projeto\\BrGaapFiscal.Api\\BrGaapFiscal.Api\\BrGaapFiscal.Api.csproj",
+      "packagesPath": "C:\\Users\\joao.silva\\.nuget\\packages\\",
+      "outputPath": "C:\\Projeto\\BrGaapFiscal.Api\\BrGaapFiscal.Api\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\João Pedro\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\joao.silva\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -3458,15 +3463,14 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\BrGaapFiscal\\BrGaapFiscal.Application\\BrGaapFiscal.Application.csproj": {
-              "projectPath": "C:\\BrGaapFiscal\\BrGaapFiscal.Application\\BrGaapFiscal.Application.csproj"
+            "C:\\Projeto\\BrGaapFiscal.Api\\BrGaapFiscal.Application\\BrGaapFiscal.Application.csproj": {
+              "projectPath": "C:\\Projeto\\BrGaapFiscal.Api\\BrGaapFiscal.Application\\BrGaapFiscal.Application.csproj"
             }
           }
         }
@@ -3480,7 +3484,8 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      }
+      },
+      "SdkAnalysisLevel": "9.0.200"
     },
     "frameworks": {
       "net8.0": {
@@ -3534,7 +3539,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

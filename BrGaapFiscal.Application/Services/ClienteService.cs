@@ -17,11 +17,14 @@ namespace BrGaapFiscal.Api.Services
             _logger = logger;
         }
 
-        public async Task<IEnumerable<Cliente>> GetAll()
+        public async Task<IEnumerable<Cliente>> GetAll(int pageNumber, int pageSize)
         {
             try
             {
-                return await _clienteRepository.GetAll();
+                if (pageNumber <= 0) pageNumber = 1;
+                if (pageSize <= 0) pageSize = 10;
+
+                return await _clienteRepository.GetAll(pageNumber, pageSize);
             }
             catch (Exception ex)
             {
@@ -36,7 +39,7 @@ namespace BrGaapFiscal.Api.Services
             {
                 if (id <= 0)
                 {
-                    throw new KeyNotFoundException("ID não informado.");
+                    throw new ArgumentNullException("ID não informado.");
                 }
 
                 var cliente = await _clienteRepository.GetById(id);
@@ -51,6 +54,11 @@ namespace BrGaapFiscal.Api.Services
             catch (KeyNotFoundException kex)
             {
                 _logger.LogWarning($"Cliente com ID: {id} não encontrado.");
+                throw;
+            }
+            catch (ArgumentNullException kex)
+            {
+                _logger.LogWarning($"Dados invalidos.");
                 throw;
             }
             catch (Exception ex)
@@ -90,8 +98,8 @@ namespace BrGaapFiscal.Api.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro ao inserir o cliente.");
-                throw;
+                _logger.LogError(ex, "Erro ao inserir o Cliente.");
+                throw new BusinessException($"Erro ao inserir o Cliente. {ex.Message}");
             }
         }
 
@@ -140,7 +148,7 @@ namespace BrGaapFiscal.Api.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Erro ao atualizar o Cliente com ID: {entity.Id}");
-                throw;
+                throw new BusinessException($"Erro ao atualizar o Cliente com ID: {entity.Id}. {ex.Message}");
             }
         }
 

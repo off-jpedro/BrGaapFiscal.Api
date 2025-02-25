@@ -37,9 +37,12 @@ namespace BrGaapFiscal.Api.Repositores
             return rowsAffected > 0;
         }
 
-        public async Task<IEnumerable<Cliente>> GetAll()
+        public async Task<IEnumerable<Cliente>> GetAll(int pageNumber, int pageSize)
         {
-            return await _context.Clientes.ToListAsync();
+            return await _context.Clientes
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
         }
 
         public async Task<Cliente?> GetById(long id)

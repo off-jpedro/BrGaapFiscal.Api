@@ -37,11 +37,13 @@ namespace BrGaapFiscal.Api.Repositores
             return rowsAffected > 0;
         }
 
-        public async Task<IEnumerable<NotaFiscal>> GetAll()
+        public async Task<IEnumerable<NotaFiscal>> GetAll(int pageNumber, int pageSize)
         {
             return await _context.NotaFiscais
                 .Include(n => n.Cliente)
                 .Include(n => n.Fornecedor)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
         }
 

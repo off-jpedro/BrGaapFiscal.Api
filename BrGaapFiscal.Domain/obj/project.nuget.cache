@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Px5jPBzpuZ22Zb/ASSchDj4PcEZccmvAnXqpDynL+MbeumYBLRuD/CxtdepG59P7y8SNq91R9G72XXXIsRxnpQ==",
+  "dgSpecHash": "1loy5laZ2ps=",
   "success": true,
-  "projectFilePath": "C:\\BrGaapFiscal\\BrGaapFiscal.Domain\\BrGaapFiscal.Domain.csproj",
+  "projectFilePath": "C:\\Projeto\\BrGaapFiscal.Api\\BrGaapFiscal.Domain\\BrGaapFiscal.Domain.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

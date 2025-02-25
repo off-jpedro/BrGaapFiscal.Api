@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using System;
 using System.Collections.Generic;
+using BrGaapFiscal.Api.Repositores;
 
 namespace BrGaapFiscal.Api.Services
 {
@@ -20,11 +21,14 @@ namespace BrGaapFiscal.Api.Services
             _logger = logger;
         }
 
-        public async Task<IEnumerable<Fornecedor>> GetAll()
+        public async Task<IEnumerable<Fornecedor>> GetAll(int pageNumber, int pageSize)
         {
             try
             {
-                return await _repository.GetAll();
+                if (pageNumber <= 0) pageNumber = 1;
+                if (pageSize <= 0) pageSize = 10;
+
+                return await _repository.GetAll(pageNumber, pageSize);
             }
             catch (Exception ex)
             {
@@ -39,7 +43,7 @@ namespace BrGaapFiscal.Api.Services
             {
                 if (id <= 0)
                 {
-                    throw new KeyNotFoundException("ID não informado.");
+                    throw new ArgumentNullException("ID não informado.");
                 }
 
                 var fornecedor = await _repository.GetById(id);
@@ -52,6 +56,11 @@ namespace BrGaapFiscal.Api.Services
             catch (KeyNotFoundException kex)
             {
                 _logger.LogWarning($"Fornecedor com ID: {id} não encontrado.");
+                throw;
+            }
+            catch (ArgumentNullException kex)
+            {
+                _logger.LogWarning($"Dados invalidos.");
                 throw;
             }
             catch (Exception ex)
@@ -90,8 +99,8 @@ namespace BrGaapFiscal.Api.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro ao inserir o fornecedor.");
-                throw;
+                _logger.LogError(ex, "Erro ao inserir o Fornecedor.");
+                throw new BusinessException($"Erro ao inserir o Fornecedor. {ex.Message}");
             }
         }
 
