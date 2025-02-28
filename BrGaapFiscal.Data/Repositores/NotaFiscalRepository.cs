@@ -14,6 +14,16 @@ namespace BrGaapFiscal.Api.Repositores
             _context = context;
         }
 
+        public async Task<int> GetMaxId()
+        {
+            return await _context.NotaFiscais.MaxAsync(n => (int?)n.Id) ?? 0;
+        }
+
+        public async Task<int> GetMaxNumeroNota()
+        {
+            return await _context.NotaFiscais.MaxAsync(n => (int?)n.NumeroNota) ?? 0;
+        }
+
         public async Task<bool> Add(NotaFiscal entity)
         {
             await _context.NotaFiscais.AddAsync(entity);

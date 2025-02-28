@@ -14,6 +14,12 @@ namespace BrGaapFiscal.Api.Repositores
             _context = context;
         }
 
+        public async Task<int> GetMaxId()
+        {
+            return await _context.Clientes.MaxAsync(c => (int?)c.Id) ?? 0;
+        }
+
+
         public async Task<bool> Add(Cliente entity)
         {
             await _context.Clientes.AddAsync(entity);

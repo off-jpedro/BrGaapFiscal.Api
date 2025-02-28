@@ -5,6 +5,8 @@ namespace BrGaapFiscal.Api.Repositores.Interfaces
 {
     public interface INotaFiscalRepository : IRepository<NotaFiscal>
     {
+        Task<int> GetMaxId();
+        Task<int> GetMaxNumeroNota();
 
     }
 }

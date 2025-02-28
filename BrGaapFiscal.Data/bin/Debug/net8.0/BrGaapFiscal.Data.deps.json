@@ -651,10 +651,7 @@
       "System.Threading.Channels/7.0.0": {},
       "BrGaapFiscal.Domain/1.0.0": {
         "runtime": {
-          "BrGaapFiscal.Domain.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "BrGaapFiscal.Domain.dll": {}
         }
       }
     }

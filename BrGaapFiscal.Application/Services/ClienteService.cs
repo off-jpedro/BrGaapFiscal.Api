@@ -72,9 +72,13 @@ namespace BrGaapFiscal.Api.Services
         {
             try
             {
-                if (entity == null || entity.Id <= 0 || string.IsNullOrEmpty(entity.Nome))
+                if (entity == null || string.IsNullOrEmpty(entity.Nome))
+                    throw new ArgumentNullException("Cliente inválido. Veja se está preenchendo os campos obrigatórios.");
+
+                if (entity.Id == 0) 
                 {
-                    throw new ArgumentNullException(nameof(entity));
+                    var maxId = await _clienteRepository.GetMaxId();
+                    entity.Id = maxId + 1;
                 }
 
                 var result = await _clienteRepository.Add(entity);
@@ -102,6 +106,7 @@ namespace BrGaapFiscal.Api.Services
                 throw new BusinessException($"Erro ao inserir o Cliente. {ex.Message}");
             }
         }
+
 
         public async Task<bool> Update(Cliente entity)
         {

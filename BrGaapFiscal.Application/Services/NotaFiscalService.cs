@@ -84,14 +84,21 @@ namespace BrGaapFiscal.Api.Services
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
 
-            if (string.IsNullOrEmpty(entity.NumeroNota.ToString()) || entity.ValorNota <= 0)
-                throw new BusinessException("Número da nota e valor são obrigatórios e devem ser válidos.");
+            if (entity.ValorNota <= 0)
+                throw new BusinessException("O valor da nota é obrigatório e deve ser válido.");
 
-            if (entity.Cliente == null || string.IsNullOrEmpty(entity.Cliente.Nome))
-                throw new BusinessException("Cliente inválido. Veja se está preenchendo os campos obrigatórios.");
+            // Gerar o ID automaticamente caso seja 0
+            if (entity.Id == 0)
+            {
+                var maxId = await _notaFiscalRepository.GetMaxId();
+                entity.Id = maxId + 1;
+            }
 
-            if (entity.Fornecedor == null || string.IsNullOrEmpty(entity.Fornecedor.Nome))
-                throw new BusinessException("Fornecedor inválido. Veja se está preenchendo os campos obrigatórios.");
+            if (entity.NumeroNota == 0)
+            {
+                var maxNumeroNota = await _notaFiscalRepository.GetMaxNumeroNota();
+                entity.NumeroNota = maxNumeroNota + 1;
+            }
 
             var novoCliente = await _clienteService.Insert(entity.Cliente);
             var novoFornecedor = await _fornecedorService.Insert(entity.Fornecedor);
@@ -105,6 +112,8 @@ namespace BrGaapFiscal.Api.Services
 
             return true;
         }
+
+
 
         public async Task<bool> Update(NotaFiscal entity)
         {

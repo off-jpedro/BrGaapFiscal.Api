@@ -5,6 +5,7 @@ namespace BrGaapFiscal.Api.Repositores.Interfaces
 {
     public interface IFornecedorRepository : IRepository<Fornecedor>
     {
+        Task<int> GetMaxId();
 
     }
 }

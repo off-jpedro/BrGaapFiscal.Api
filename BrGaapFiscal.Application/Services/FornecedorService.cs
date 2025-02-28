@@ -74,9 +74,13 @@ namespace BrGaapFiscal.Api.Services
         {
             try
             {
-                if (entity == null || entity.Id <= 0 || string.IsNullOrEmpty(entity.Nome))
+                if (entity == null || string.IsNullOrEmpty(entity.Nome))
+                    throw new ArgumentNullException("Fornecedor inválido. Veja se está preenchendo os campos obrigatórios.");
+
+                if (entity.Id == 0) 
                 {
-                    throw new ArgumentNullException(nameof(entity));
+                    var maxId = await _repository.GetMaxId();
+                    entity.Id = maxId + 1;
                 }
 
                 var result = await _repository.Add(entity);
@@ -103,6 +107,7 @@ namespace BrGaapFiscal.Api.Services
                 throw new BusinessException($"Erro ao inserir o Fornecedor. {ex.Message}");
             }
         }
+
 
         public async Task<bool> Update(Fornecedor entity)
         {
