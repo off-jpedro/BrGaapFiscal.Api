@@ -73,62 +73,29 @@ namespace BrGaapFiscal.Api.Services
 
         public async Task<bool> Insert(NotaFiscal entity)
         {
-            try
-            {
-                if (entity == null || entity.Id <= 0 || string.IsNullOrEmpty(entity.NumeroNota.ToString()) || entity.ValorNota <= 0)
-                {
-                    throw new ArgumentNullException(nameof(entity));
-                }
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
 
-                if (entity.Cliente == null || entity.Cliente.Id <= 0 || string.IsNullOrEmpty(entity.Cliente.Nome))
-                    throw new ArgumentNullException("Cliente inválido. Veja se está preenchendo os campos obrigatórios");
+            if (string.IsNullOrEmpty(entity.NumeroNota.ToString()) || entity.ValorNota <= 0)
+                throw new BusinessException("Número da nota e valor são obrigatórios e devem ser válidos.");
 
-                if (entity.Fornecedor == null || entity.Fornecedor.Id <= 0 || string.IsNullOrEmpty(entity.Fornecedor.Nome))
-                    throw new ArgumentNullException("Fornecedor inválido. Veja se está preenchendo os campos obrigatórios");
+            if (entity.Cliente == null || string.IsNullOrEmpty(entity.Cliente.Nome))
+                throw new BusinessException("Cliente inválido. Veja se está preenchendo os campos obrigatórios.");
 
-                var cliente = await _clienteService.GetById(entity.Cliente.Id);
-                if (cliente == null || cliente.Id <= 0)
-                {
-                    await _clienteService.Insert(entity.Cliente);
-                }
-                else
-                {
-                    entity.Cliente = cliente;
-                }
+            if (entity.Fornecedor == null || string.IsNullOrEmpty(entity.Fornecedor.Nome))
+                throw new BusinessException("Fornecedor inválido. Veja se está preenchendo os campos obrigatórios.");
 
-                var fornecedor = await _fornecedorService.GetById(entity.Fornecedor.Id);
-                if (fornecedor == null || fornecedor.Id <= 0)
-                {
-                    await _fornecedorService.Insert(entity.Fornecedor);
-                }
-                else
-                {
-                    entity.Fornecedor = fornecedor;
-                }
+            var novoCliente = await _clienteService.Insert(entity.Cliente);
+            var novoFornecedor = await _fornecedorService.Insert(entity.Fornecedor);
 
-                var result = await _notaFiscalRepository.Add(entity);
-                if (!result)
-                {
-                    throw new BusinessException("Falha ao inserir a Nota Fiscal");
-                }
+            entity.Cliente = novoCliente ? entity.Cliente : throw new BusinessException("Falha ao inserir o Cliente.");
+            entity.Fornecedor = novoFornecedor ? entity.Fornecedor : throw new BusinessException("Falha ao inserir o Fornecedor.");
 
-                return true;
-            }
-            catch (ArgumentNullException ex)
-            {
-                _logger.LogError(ex, "Erro ao inserir a nota fiscal: argumento nulo.");
-                throw;
-            }
-            catch (BusinessException ex)
-            {
-                _logger.LogError(ex, "Erro ao inserir a nota fiscal: falha na lógica de negócios.");
-                throw;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Erro ao inserir a nota fiscal.");
-                throw new BusinessException($"Erro ao inserir a nota fiscal. {ex.Message}");
-            }
+            var result = await _notaFiscalRepository.Add(entity);
+            if (!result)
+                throw new BusinessException("Falha ao inserir a Nota Fiscal.");
+
+            return true;
         }
 
         public async Task<bool> Update(NotaFiscal entity)

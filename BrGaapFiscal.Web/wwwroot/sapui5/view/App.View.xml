@@ -1,0 +1,19 @@
+﻿<mvc:View
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    controllerName="my.app.controller.App">
+	<App>
+		<pages>
+			<Page title="Notas Fiscais">
+				<List
+                    items="{
+                        path: 'notaFiscal>/data'
+                    }">
+					<StandardListItem
+                        title="{notaFiscal>name}"
+                        description="{notaFiscal>description}" />
+				</List>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>
