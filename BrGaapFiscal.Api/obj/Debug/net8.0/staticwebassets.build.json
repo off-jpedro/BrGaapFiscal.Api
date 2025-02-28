@@ -1,11 +1,12 @@
 {
   "Version": 1,
-  "Hash": "gKJTqt5e1WrW6Bi/BCsnbFf9G7MHWNaQveelLC4lSoQ=",
+  "Hash": "QSOM2VOoaRtHGWR++OhoVttPvF0jgbHjpKz2Tfn83ag=",
   "Source": "BrGaapFiscal.Api",
   "BasePath": "_content/BrGaapFiscal.Api",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [],
-  "Assets": []
+  "Assets": [],
+  "Endpoints": []
 }

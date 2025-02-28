@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BrGaapFiscal.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6d6b65e6c4d723139ddc823513ad342193806997")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+66e58b3319e1ed6a32e61188b78cb84eaaf0c652")]
 [assembly: System.Reflection.AssemblyProductAttribute("BrGaapFiscal.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BrGaapFiscal.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -10,3 +10,15 @@ C:\BrGaapFiscal\BrGaapFiscal.Domain\obj\Debug\net8.0\BrGaapFiscal.Domain.dll
 C:\BrGaapFiscal\BrGaapFiscal.Domain\obj\Debug\net8.0\refint\BrGaapFiscal.Domain.dll
 C:\BrGaapFiscal\BrGaapFiscal.Domain\obj\Debug\net8.0\BrGaapFiscal.Domain.pdb
 C:\BrGaapFiscal\BrGaapFiscal.Domain\obj\Debug\net8.0\ref\BrGaapFiscal.Domain.dll
+C:\Projeto\BrGaapFiscal.Api\BrGaapFiscal.Domain\bin\Debug\net8.0\BrGaapFiscal.Domain.deps.json
+C:\Projeto\BrGaapFiscal.Api\BrGaapFiscal.Domain\bin\Debug\net8.0\BrGaapFiscal.Domain.dll
+C:\Projeto\BrGaapFiscal.Api\BrGaapFiscal.Domain\bin\Debug\net8.0\BrGaapFiscal.Domain.pdb
+C:\Projeto\BrGaapFiscal.Api\BrGaapFiscal.Domain\obj\Debug\net8.0\BrGaapFiscal.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Projeto\BrGaapFiscal.Api\BrGaapFiscal.Domain\obj\Debug\net8.0\BrGaapFiscal.Domain.AssemblyInfoInputs.cache
+C:\Projeto\BrGaapFiscal.Api\BrGaapFiscal.Domain\obj\Debug\net8.0\BrGaapFiscal.Domain.AssemblyInfo.cs
+C:\Projeto\BrGaapFiscal.Api\BrGaapFiscal.Domain\obj\Debug\net8.0\BrGaapFiscal.Domain.csproj.CoreCompileInputs.cache
+C:\Projeto\BrGaapFiscal.Api\BrGaapFiscal.Domain\obj\Debug\net8.0\BrGaapFiscal.Domain.sourcelink.json
+C:\Projeto\BrGaapFiscal.Api\BrGaapFiscal.Domain\obj\Debug\net8.0\BrGaapFiscal.Domain.dll
+C:\Projeto\BrGaapFiscal.Api\BrGaapFiscal.Domain\obj\Debug\net8.0\refint\BrGaapFiscal.Domain.dll
+C:\Projeto\BrGaapFiscal.Api\BrGaapFiscal.Domain\obj\Debug\net8.0\BrGaapFiscal.Domain.pdb
+C:\Projeto\BrGaapFiscal.Api\BrGaapFiscal.Domain\obj\Debug\net8.0\ref\BrGaapFiscal.Domain.dll

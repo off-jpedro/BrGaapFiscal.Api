@@ -39,15 +39,16 @@ namespace BrGaapFiscal.Api.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetAllCliente()
+        public async Task<IActionResult> GetAllCliente([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
-            var clientes = await _clienteService.GetAll();
+            var clientes = await _clienteService.GetAll(pageNumber, pageSize);
             if (clientes == null || !clientes.Any())
             {
                 return NotFound("Nenhum cliente encontrado.");
             }
             return Ok(clientes);
         }
+
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]

@@ -55,8 +55,7 @@
               "RelativeToolTip": "BrGaapFiscal.Application\\Services\\NotaFiscalService.cs",
               "ViewState": "AQIAALIAAAAAAAAAAAAcwLsAAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-27T22:52:02.456Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-27T22:52:02.456Z"
             },
             {
               "$type": "Document",
@@ -68,8 +67,7 @@
               "RelativeToolTip": "BrGaapFiscal.Api\\Controllers\\NotaFiscalController.cs",
               "ViewState": "AQIAAGAAAAAAAAAAAAAcwGkAAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-27T22:51:41.099Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-27T22:51:41.099Z"
             }
           ]
         }
